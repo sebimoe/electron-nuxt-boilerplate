@@ -1,0 +1,47 @@
+{
+  "name": "electron-nuxt-boilerplate",
+  "version": "0.1.0",
+  "main": "dist/main.js",
+  "type": "module",
+  "scripts": {
+    "start": "npm-run-all build start:electron",
+    "start-nofe": "npm-run-all build:js start:electron",
+    "start:electron": "electron-forge start",
+    "package": "npm-run-all make package:electron",
+    "package:electron": "electron-forge package",
+    "make": "npm-run-all clean build make:electron",
+    "make:electron": "electron-forge make",
+    "build": "npm-run-all -p \"build:*\"",
+    "build:js": "npm-run-all -lp \"build:js:*\"",
+    "build:js:main": "tsup-node src/main/main.ts --format esm --sourcemap",
+    "build:js:preload": "tsup-node src/preload/preload.ts --format cjs --sourcemap",
+    "build:frontend": "npm-run-all -l build:frontend:nuxt build:frontend:copy",
+    "build:frontend:nuxt": "cd frontend && npm run generate",
+    "build:frontend:copy": "copyfiles -u 2 \"frontend/.output/public/**\" dist",
+    "clean": "rimraf dist out"
+  },
+  "author": "sebimoe",
+  "license": "ISC",
+  "description": "Boilerplate code for nuxt3-based electron app.",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.6.0",
+    "@electron-forge/maker-deb": "^7.6.0",
+    "@electron-forge/maker-rpm": "^7.6.0",
+    "@electron-forge/maker-squirrel": "^7.6.0",
+    "@electron-forge/maker-zip": "^7.6.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.6.0",
+    "@electron-forge/plugin-fuses": "^7.6.0",
+    "@electron/fuses": "^1.8.0",
+    "@types/node": "^22.10.2",
+    "copyfiles": "^2.4.1",
+    "electron": "^33.2.1",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1"
+  }
+}
